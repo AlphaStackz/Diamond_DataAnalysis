@@ -9,11 +9,15 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)   # sklearn
 warnings.filterwarnings("ignore", category=UserWarning)     # umap
 
+# sortering (worst to best)
+cut_order     = ["Fair", "Good", "Very Good", "Premium", "Ideal"]
+color_order   = ["J", "I", "H", "G", "F", "E", "D"]
+clarity_order = ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]
 
 st.title("Med hjälp av `UMAP` - Uniform Manifold Approximation and Projection klusteranalys kan vi gruppera diamanter efter liknande egenskaper")
 
-
 st.subheader("UMAP-projekt analys 1: Diamant kluster efter `Clarity`")
+
 @st.cache_data
 def load_and_embed():
     df = pd.read_csv("diamonds.csv")
@@ -23,6 +27,11 @@ def load_and_embed():
     df["cut_code"] = df["cut"].astype("category").cat.codes
     df["color_code"] = df["color"].astype("category").cat.codes
     df["clarity_code"] = df["clarity"].astype("category").cat.codes
+
+    # Lägger in rätt kategori sortering
+    df["cut"] = pd.Categorical(df["cut"], categories=cut_order, ordered=True)
+    df["color"] = pd.Categorical(df["color"], categories=color_order, ordered=True)
+    df["clarity"] = pd.Categorical(df["clarity"], categories=clarity_order, ordered=True)
 
     features = [
         "carat","cut_code","color_code","clarity_code",
@@ -68,7 +77,6 @@ sns.scatterplot(
 )
 st.pyplot(fig)
 
-
 st.subheader("UMAP-projekt analys 4: Diamant kluster efter `Price`:")
 fig, ax = plt.subplots(figsize=(10,7))
 sns.scatterplot(
@@ -84,7 +92,6 @@ st.markdown("""
 - Med hjälp av `UMAP` kan vi reducera dimensionerna för ett mång dimensionell data 
 för att se diamanterna som kluster i respektive kategori klasser.
 """)
-
 
 # Hämta diamant 27635
 target_id = 27635
@@ -127,7 +134,6 @@ När vi fokuserar på diamant **27635** och identifierar dess närmaste grannar 
 kan vi identifiera ett kluster av diamanter som delar mycket liknande egenskaper både i struktur, vikt och prisklass.
 """)
 
-
 fig_cluster, ax_cluster = plt.subplots(figsize=(10,7))
 sns.scatterplot(
     data=similar_cluster,
@@ -141,7 +147,7 @@ st.pyplot(fig_cluster)
 st.subheader("💎 **Slutlig Utredning:**")
 st.markdown("""
 UMAP hjälper oss att analysera **närhet i mångdimensionellt rum** vilket betyder att detta kluster representerar diamanter med liknande kombination av:
-- **Hög klarhet (Clarity: IF-VVS1)**
+- **Hög klarhet (Clarity: IF–VVS1)**
 - **Vit färg (Color: D–E)**
 - **God slipning (Cut: Very Good/Premium)**
 - **Liknande carat- och volymvärden**
