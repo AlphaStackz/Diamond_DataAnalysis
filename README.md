@@ -1,6 +1,6 @@
 # 💎 Diamond Data Analysis
 
-This project is part of the **kunskapskontroll_python_ai.pdf** assignment at NBI Academy.
+This project is part of the **Kunskapskontroll: Python AI Course** assignment at NBI Academy.
 
 ## 📚 Assignment Overview
 
