@@ -19,4 +19,5 @@ A `Streamlit` application is included to visualize the diamond data using:
 
 Launch with:
 ```bash
+cd '.\Del 2 - Dataanalys i Python\'
 streamlit run Streamlit/main.py
